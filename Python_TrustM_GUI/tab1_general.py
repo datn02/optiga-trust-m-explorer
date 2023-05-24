@@ -2073,6 +2073,8 @@ class Tab_META(wx.Panel):
             self.key.Enable()
             self.gendataobj.Enable()
             self.bindsecret.Enable()
+            self.oid_datatype.SetSelection(0)
+            self.oid_datatype.Disable()
             
         else:
             self.sysdata.Disable()
@@ -2082,6 +2084,7 @@ class Tab_META(wx.Panel):
             self.bindsecret.Disable() 
             self.oid_datatype.SetSelection(0)
             self.oid_datatype.Disable()
+            self.oid_datatype.Enable() 
         
         self.dataobject = self.cert.GetValue()
         
