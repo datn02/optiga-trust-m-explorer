@@ -1749,7 +1749,7 @@ class Tab_META(wx.Panel):
         self.exe.SetFont(textctrlfont)
         
         # general OID data type
-        text_oid_datatype = wx.StaticText(self, 0, "General OID data type")
+        text_oid_datatype = wx.StaticText(self, 0, "General/cert OID data type")
         self.oid_datatype = wx.ComboBox(self, 1, choices=datatype_list, style=wx.CB_READONLY, size=wx.Size(178, -1))
         self.oid_datatype.SetFont(textctrlfont)
         #
