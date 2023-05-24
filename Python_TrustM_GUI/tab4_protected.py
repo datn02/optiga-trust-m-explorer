@@ -4,12 +4,16 @@ import misc_dialogs as misc
 import info_dialogs as info
 import images as img
 import binascii
+from binascii import unhexlify
 import subprocess
 import os
 import config
 import re
 import math
+from base64 import b64encode, b64decode
 from subprocess import PIPE
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import serialization
 
 secret_list = ['Integrity Confidential']
 enc_algo_list = ['AES-CCM-16-64-128']
@@ -349,9 +353,7 @@ class Tab_MetaConfidentialUpdate(wx.Panel):
         
         self.metadata.Clear()
         self.metadata.AppendText(os.path.basename(openFileDialog.GetPath()))
-#         print(self.metadata.GetValue())
-#         filename= os.path.basename(openFileDialog.GetPath())
-#         print(filename)
+
         
         openFileDialog.Destroy()
  
@@ -1052,7 +1054,7 @@ class Tab_KeyConfidentialUpdate(wx.Panel):
         frame = wx.Frame(None, -1, '*.*')
         frame.SetSize(0,0,200,50)
             
-        openFileDialog = wx.FileDialog(frame, "Open", "", "","All|*.crt;*.pem|Certificate|*.crt;*.pem", wx.FD_OPEN | wx.FD_FILE_MUST_EXIST |wx.FD_CHANGE_DIR)
+        openFileDialog = wx.FileDialog(frame, "Open", "", "","All|*.crt;*.pem;*.txt|Certificate|*.crt;*.pem", wx.FD_OPEN | wx.FD_FILE_MUST_EXIST |wx.FD_CHANGE_DIR)
         
         some_dir= config.EXEPATH + "/ex_protected_update_data_set/samples/payload/key/"
         
@@ -1060,11 +1062,9 @@ class Tab_KeyConfidentialUpdate(wx.Panel):
         openFileDialog.SetFilename("ecc_secp256r1_test.pem")
         
         if openFileDialog.ShowModal() ==wx.ID_CANCEL:
-            
                 return
+                
         print((openFileDialog.GetPath()))
-        #self.keydata.SetValue(openFileDialog.GetPath())
-        
         self.keypath = openFileDialog.GetPath()
         
         self.keydata.Clear()
@@ -1379,6 +1379,7 @@ class Tab_KeyConfidentialUpdate(wx.Panel):
                                                     None)
     
         manifest_and_frag_string = command_output.stdout.read().decode("utf-8")
+        print(command_output.stdout.read().decode())
         manifest_and_frag_string = manifest_and_frag_string.split('--')
         manifest = manifest_and_frag_string[0]
         fragment = manifest_and_frag_string[1]
@@ -2413,7 +2414,7 @@ class Tab_RsaConfidentialUpdate(wx.Panel):
         frame = wx.Frame(None, -1, '*.*')
         frame.SetSize(0,0,200,50)
             
-        openFileDialog = wx.FileDialog(frame, "Open", "", "","All|*.crt;*.pem|Certificate|*.crt;*.pem", wx.FD_OPEN | wx.FD_FILE_MUST_EXIST |wx.FD_CHANGE_DIR)
+        openFileDialog = wx.FileDialog(frame, "Open", "", "","All|*.crt;*.pem;*.txt|Certificate|*.crt;*.pem", wx.FD_OPEN | wx.FD_FILE_MUST_EXIST |wx.FD_CHANGE_DIR)
         
         some_dir= config.EXEPATH + "/scripts/certificates/"
         
